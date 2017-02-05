@@ -1,6 +1,7 @@
 <?php
-use Migrations\AbstractSeed;
+
 use Cake\ORM\TableRegistry;
+use Migrations\AbstractSeed;
 
 /**
  * Characters seed.
@@ -46,4 +47,5 @@ class CharactersSeed extends AbstractSeed
         $table = $this->table('characters');
         $table->insert($data)->save();
     }
+
 }

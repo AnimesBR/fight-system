@@ -1,4 +1,5 @@
 <?php
+
 use Migrations\AbstractSeed;
 
 /**
@@ -10,7 +11,9 @@ class AppSeed extends AbstractSeed
     public function run()
     {
         $this->call('UsersSeed');
+        $this->call('SkillsSeed');
         $this->call('CharactersSeed');
+        $this->call('CharactersSkillsSeed');
     }
 
 }
