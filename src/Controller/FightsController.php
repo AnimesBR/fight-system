@@ -2,8 +2,10 @@
 namespace App\Controller;
 
 use App\Controller\AppController;
+use App\Fight\Combat;
 use Cake\ORM\TableRegistry;
 use App\Fight\Fighter;
+
 
 /**
  * Fights Controller
@@ -69,21 +71,13 @@ class FightsController extends AppController
         $fighterA = (new Fighter())->buildFromCharacter($characters[0]);
         $fighterB = (new Fighter())->buildFromCharacter($characters[1]);
 
-        $fight = true;
-        $log = [];
-        $log[] = "Fighter A - HP/{$fighterA->hp}";
-        $log[] = "Fighter B - HP/{$fighterB->hp}";
-        while ($fight) {
-            $log[] = $fighterA->uses($this->skills[array_rand($this->skills)], $fighterB);
-            $log[] = $fighterB->uses($this->skills[array_rand($this->skills)], $fighterA);
-            $log[] = "Fighter A - HP/{$fighterA->hp}";
-            $log[] = "Fighter B - HP/{$fighterB->hp}";
+        $combat = new Combat();
+        $combat->add($fighterA);
+        $combat->add($fighterB);
 
-            if ($fighterA->hp <= 0 OR $fighterB->hp <= 0) {
-                $fight = false;
-            }
+        while ($combat->finished === false) {
+
         }
-        debug($log);
 
         $this->autoRender = false;
     }
