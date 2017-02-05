@@ -4,6 +4,10 @@ namespace App\Fight;
 
 use App\Model\Entity\Character;
 
+/**
+ * Class Fighter
+ * @package App\Fight
+ */
 class Fighter
 {
     public $name;
@@ -38,27 +42,6 @@ class Fighter
         $this->ep = $this->energy * 10;
 
         return $this;
-    }
-
-    public function uses(array $skill, Fighter $opponent)
-    {
-        $skillName = $skill['name'];
-        $descriptions = $skill['descriptions'];
-        $attribute = $skill['attribute'];
-        $affected = $skill['affect'];
-        $affectType = $skill['affect_type'];
-        $powerBase = $skill['power_base'];
-        $powerMax = $skill['power_max'];
-
-        $effectBase = $this->{$attribute};
-        $efficiency = $effectBase + rand($powerBase, $powerMax);
-
-        $effectedBase = $opponent->{$affected};
-        if ($affectType == '-') {
-            $opponent->{$affected} = $effectedBase - $efficiency;
-        }
-
-        return "({$skillName}) {$this->name} " . $descriptions[array_rand($descriptions)] . " {$opponent->name} ({$affected} - {$efficiency}).";
     }
 
 }
