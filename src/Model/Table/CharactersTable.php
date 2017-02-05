@@ -1,6 +1,7 @@
 <?php
 namespace App\Model\Table;
 
+use App\Model\Table\Finders\FindSeed;
 use Cake\ORM\Query;
 use Cake\ORM\RulesChecker;
 use Cake\ORM\Table;
@@ -24,6 +25,8 @@ use Cake\Validation\Validator;
 class CharactersTable extends Table
 {
 
+    use FindSeed;
+
     /**
      * Initialize method
      *
@@ -43,6 +46,12 @@ class CharactersTable extends Table
         $this->belongsTo('Users', [
             'foreignKey' => 'user_id',
             'joinType' => 'INNER'
+        ]);
+
+        $this->belongsToMany('Skills', [
+            'foreignKey' => 'character_id',
+            'targetForeignKey' => 'skill_id',
+            'joinTable' => 'characters_skills'
         ]);
     }
 
@@ -122,4 +131,5 @@ class CharactersTable extends Table
 
         return $rules;
     }
+
 }

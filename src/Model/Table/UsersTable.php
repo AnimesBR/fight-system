@@ -1,6 +1,7 @@
 <?php
 namespace App\Model\Table;
 
+use App\Model\Table\Finders\FindSeed;
 use Cake\ORM\Query;
 use Cake\ORM\RulesChecker;
 use Cake\ORM\Table;
@@ -23,6 +24,8 @@ use Cake\Validation\Validator;
  */
 class UsersTable extends Table
 {
+
+    use FindSeed;
 
     /**
      * Initialize method
@@ -94,7 +97,11 @@ class UsersTable extends Table
         return $rules;
     }
 
-
+    /**
+     * @param Query $query
+     * @param array $options
+     * @return Query
+     */
     public function findSeed(Query $query, array $options)
     {
         $limit = (int) !empty($options['limit']) && is_integer($options['limit'])
