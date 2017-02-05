@@ -1,8 +1,8 @@
 <?php
-use Migrations\AbstractSeed;
 
 use Cake\Auth\DefaultPasswordHasher;
 use Cake\ORM\TableRegistry;
+use Migrations\AbstractSeed;
 
 /**
  * Users seed.
@@ -42,4 +42,5 @@ class UsersSeed extends AbstractSeed
         $table = $this->table('users');
         $table->insert($data)->save();
     }
+
 }
