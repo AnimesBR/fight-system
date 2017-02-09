@@ -11,6 +11,8 @@ use App\Model\Entity\Skill as SkillEntity;
 class Skill
 {
 
+    public $id;
+
     public $name;
 
     public $description;
@@ -27,9 +29,17 @@ class Skill
 
     public $targetAttribute;
 
-    public function buildFromSkill(SkillEntity $skill)
+    public function buildFromEntity(SkillEntity $skill)
     {
-        // TODO - Build object
+        $this->id = $skill->id;
+        $this->name = $skill->name;
+        $this->description = $skill->description;
+        $this->target = $skill->target;
+        $this->cost = $skill->cost;
+        $this->power = $skill->power;
+        $this->operation = $skill->operation;
+        $this->baseAttribute = $skill->base_attribute;
+        $this->targetAttribute = $skill->target_attribute;
 
         return $this;
     }
