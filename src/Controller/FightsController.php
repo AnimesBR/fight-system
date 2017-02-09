@@ -3,6 +3,7 @@ namespace App\Controller;
 
 use App\Controller\AppController;
 use App\Fight\Combat;
+use App\Fight\Skill;
 use Cake\ORM\TableRegistry;
 use App\Fight\Fighter;
 
@@ -72,11 +73,38 @@ class FightsController extends AppController
         $fighterB = (new Fighter())->buildFromCharacter($characters[1]);
 
         $combat = new Combat();
-        $combat->add($fighterA);
-        $combat->add($fighterB);
+        $aId = $combat->addFighter($fighterA);
+        $bId = $combat->addFighter($fighterB);
 
-        while ($combat->finished === false) {
+        $skills = TableRegistry::get('skills');
 
+        $query = $skills->find();
+        $skillsA = $query->matching('Characters', function ($q) use ($combat, $aId) {
+            return $q->where(['Characters.id' => $combat->getFighterProperty($aId, 'id')]);
+        })->all()->toArray();
+
+        $query = $skills->find();
+        $skillsB = $query->matching('Characters', function ($q) use ($combat, $bId) {
+            return $q->where(['Characters.id' => $combat->getFighterProperty($bId, 'id')]);
+        })->all()->toArray();
+
+        $combat->status();
+        for ($i=1; $i<=4; $i++) {
+            if (empty($skillsA)) {
+                $combat->passTurn($aId);
+            } else {
+                $skill = new Skill();
+                $skill->buildFromEntity($skillsA[array_rand($skillsA)]);
+                $combat->registerTurn($skill, $aId);
+            }
+
+            if (empty($skillsB)) {
+                $combat->passTurn($bId);
+            } else {
+                $skill = new Skill();
+                $skill->buildFromEntity($skillsB[array_rand($skillsB)]);
+                $combat->registerTurn($skill, $bId);
+            }
         }
 
         $this->autoRender = false;
