@@ -10,6 +10,8 @@ use App\Model\Entity\Character;
  */
 class Fighter
 {
+    public $id;
+
     public $name;
 
     public $level;
@@ -30,6 +32,7 @@ class Fighter
 
     public function buildFromCharacter(Character $character)
     {
+        $this->id = $character->id;
         $this->name = $character->name;
         $this->level = $character->level;
         $this->attack = $character->attack;
